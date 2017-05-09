@@ -44,13 +44,13 @@ class Tetrimino(object):
 		# (ie, "bounding box of pixels actually used")
 		
 		# TODO: this isn't right!
-		
-		min_x = min(b[y][0] for y in range(height) if 
-		max_x = max(r[-1] for r in curr)
-		min_y = min(b[0][x] for x in range(width))
-		max_y = max(b[-1][x] for x in range(width))
 
-		if 
+		# min_x = min(b[y][0] for y in range(height) if 
+		# max_x = max(r[-1] for r in curr)
+		# min_y = min(b[0][x] for x in range(width))
+		# max_y = max(b[-1][x] for x in range(width))
+
+		# if 
 
 
 
@@ -119,10 +119,14 @@ class PI(Tetrimino):
 		  "....",
 		  "...."]
 
+	r1_bb = [0, 0, 0, 3]
+
 	r2 = [".1..",
 		  ".1..",
 		  ".1..",
 		  ".1.."]
+
+	r2_bb = [0, 1, 3, 1]
 
 	rots = [r1,r2,r1,r2]
 
