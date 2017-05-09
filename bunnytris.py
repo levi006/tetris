@@ -32,6 +32,27 @@ class Tetrimino(object):
 				if cell == "1":
 					self.window.addch(self.y + y +1, self.x + x + 1, 65)
 
+	def move(self, dx=0, dy=0):
+		"""Move piece by delta-x and delta-y.
+
+		Checks to make sure move is legal.
+		"""
+
+		curr = self.rots[self.rot]
+
+		# within the NxM grid of this piece, what's the min/max x/y coords
+		# (ie, "bounding box of pixels actually used")
+		
+		# TODO: this isn't right!
+		
+		min_x = min(b[y][0] for y in range(height) if 
+		max_x = max(r[-1] for r in curr)
+		min_y = min(b[0][x] for x in range(width))
+		max_y = max(b[-1][x] for x in range(width))
+
+		if 
+
+
 
 
 	def __str__(self):
@@ -243,13 +264,15 @@ class Board(object):
 		
 	def curses_board(self):
 		self.window = curses.newwin(self.height + 2, self.width + 2, 1, 1)
-		self.window.box()
-		self.window.addstr(10, 10, "Hello")
+		# self.window.addstr(10, 10, "Hello")
 		piece = PL(window=self.window)
-		piece.draw_piece()
-		self.window.refresh()
-		self.window.getch()
-
+		for i in range(4):
+			self.window.clear()
+			self.window.box()
+			piece.draw_piece()
+			self.window.refresh()
+			self.window.getch()
+			piece.rot_cw()
 
 def game(stdscr):
 	board = Board()
