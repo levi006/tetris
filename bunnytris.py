@@ -1,12 +1,19 @@
 """Tetris  clone."""
 
+import sys
+import curses
+
+
 class Tetrimino(object):
 	"""Generic piece."""
 
-	def __init__(self, rot=0):
+	def __init__(self, rot=0, y=0, x=0, window=None):
 		"""Create piece with initial rotation."""
 
 		self.rot = rot
+		self.y = y
+		self.x = x
+		self.window = window 
 
 	def rot_cw(self):
 		"""Rotate CW."""
@@ -17,6 +24,15 @@ class Tetrimino(object):
 		"""Rotate CCW."""
 
 		self.rot = (self.rot - 1) % 4
+
+	def draw_piece(self):
+		"""Draws a tetrimino."""
+		for y, row in enumerate(self.rots[self.rot]):
+			for x, cell in enumerate(row):
+				if cell == "1":
+					self.window.addch(self.y + y +1, self.x + x + 1, 65)
+
+
 
 	def __str__(self):
 		"""Show piece."""
@@ -220,11 +236,40 @@ class Board(object):
 	"""
 
 	def __init__(self, width=12, height=30):
+		self.width = width
+		self.height = height
+
 		self.grid = [[0] * width for y in range(height)]
+		
+	def curses_board(self):
+		self.window = curses.newwin(self.height + 2, self.width + 2, 1, 1)
+		self.window.box()
+		self.window.addstr(10, 10, "Hello")
+		piece = PL(window=self.window)
+		piece.draw_piece()
+		self.window.refresh()
+		self.window.getch()
+
+
+def game(stdscr):
+	board = Board()
+	board.curses_board()
+	stdscr.addstr(20, 20, "Yo")
+	stdscr.box()
+	stdscr.refresh()
+
+	
+
+
 
 
 
 if __name__ == "__main__":
-	import doctest
-	if doctest.testmod().failed == 0:
-		print "\n*** GO GO GO\n"
+
+	if len(sys.argv) > 1 and sys.argv[1] == "play":
+		curses.wrapper(game)
+
+	else:
+		import doctest
+		if doctest.testmod().failed == 0:
+			print "\n*** GO GO GO\n"
